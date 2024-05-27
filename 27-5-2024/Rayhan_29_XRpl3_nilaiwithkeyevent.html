@@ -168,7 +168,7 @@
                 ),
 
                 // update table
-                document.getElementById("nilai-akhir").textContent = nilaiAkhir*10/10,
+                document.getElementById("nilai-akhir").textContent = (nilaiAkhir*10/10).toString().slice(0, 5),
                 document.getElementById("indeks-presentasi").textContent = indeksPrestasi,
                 document.getElementById("keterangan").textContent = keterangan
             );
