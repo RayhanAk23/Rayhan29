@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemilihan Mata Pelajaran</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+        }
+        .output {
+            margin-bottom: 15px;
+        }
+        .label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="output">
+            <span class="label">Nama:</span> 
+            <input type="text" id="namaInput" placeholder="Masukkan nama" oninput="updateOutput()">
+        </div>
+        <div class="output">
+            <span class="label">Absen:</span> 
+            <input type="number" id="absenInput" placeholder="Masukkan nomor absen" oninput="updateOutput()">
+        </div>
+        <div class="output">
+            <span class="label">Pilih Kelas:</span>
+            <select id="kelasSelect" onchange="updateMataPelajaran(); updateOutput()">
+                <option value="10A">10A</option>
+                <option value="10B">10B</option>
+                <option value="11A">11A</option>
+                <option value="11B">11B</option>
+                <option value="12A">12A</option>
+                <option value="12B">12B</option>
+            </select>
+        </div>
+        <div class="output">
+            <span class="label">Pilih Hari dan Mata Pelajaran:</span>
+            <select id="mataPelajaranSelect" multiple onchange="updateOutput()">
+                <!-- Options will be populated dynamically -->
+            </select>
+        </div>
+        <div class="output">
+            <span class="label">Nama:</span> <span id="namaOutput"></span>
+        </div>
+        <div class="output">
+            <span class="label">Absen:</span> <span id="absenOutput"></span>
+        </div>
+        <div class="output">
+            <span class="label">Kelas:</span> <span id="kelasOutput"></span>
+        </div>
+        <div class="output">
+            <span class="label">Hari dan Mata Pelajaran yang Dipilih:</span>
+            <ul id="mataPelajaranTerpilih"></ul>
+        </div>
+    </div>
+
+    <script>
+        const mataPelajaran = {
+            '10A': [
+                'Senin - Matematika',
+                'Selasa - Bahasa Indonesia',
+                'Rabu - Fisika',
+                'Kamis - Kimia',
+                'Jumat - Biologi'
+            ],
+            '10B': [
+                'Senin - Matematika',
+                'Selasa - Bahasa Indonesia',
+                'Rabu - Kimia',
+                'Kamis - Fisika',
+                'Jumat - Biologi'
+            ],
+            '11A': [
+                'Senin - Matematika',
+                'Selasa - Kimia',
+                'Rabu - Fisika',
+                'Kamis - Biologi',
+                'Jumat - Sejarah'
+            ],
+            '11B': [
+                'Senin - Matematika',
+                'Selasa - Fisika',
+                'Rabu - Kimia',
+                'Kamis - Biologi',
+                'Jumat - Geografi'
+            ],
+            '12A': [
+                'Senin - Matematika',
+                'Selasa - Fisika',
+                'Rabu - Bahasa Indonesia',
+                'Kamis - Kimia',
+                'Jumat - Biologi'
+            ],
+            '12B': [
+                'Senin - Matematika',
+                'Selasa - Biologi',
+                'Rabu - Bahasa Indonesia',
+                'Kamis - Fisika',
+                'Jumat - Kimia'
+            ]
+        };
+
+        function updateMataPelajaran() {
+            const kelas = document.getElementById('kelasSelect').value;
+            const mataPelajaranSelect = document.getElementById('mataPelajaranSelect');
+            mataPelajaranSelect.innerHTML = '';
+
+            if (mataPelajaran[kelas]) {
+                mataPelajaran[kelas].forEach(subject => {
+                    const option = document.createElement('option');
+                    option.value = subject;
+                    option.textContent = subject;
+                    mataPelajaranSelect.appendChild(option);
+                });
+            }
+        }
+
+        function updateOutput() {
+            // Update Nama
+            const nama = document.getElementById('namaInput').value;
+            document.getElementById('namaOutput').textContent = nama;
+
+            // Update Absen
+            const absen = document.getElementById('absenInput').value;
+            document.getElementById('absenOutput').textContent = absen;
+
+            // Update Kelas
+            const kelas = document.getElementById('kelasSelect').value;
+            document.getElementById('kelasOutput').textContent = kelas;
+
+            // Update Mata Pelajaran
+            const selectedOptions = Array.from(document.getElementById('mataPelajaranSelect').selectedOptions);
+            const mataPelajaranTerpilih = document.getElementById('mataPelajaranTerpilih');
+            mataPelajaranTerpilih.innerHTML = '';
+
+            selectedOptions.forEach(option => {
+                const li = document.createElement('li');
+                li.textContent = option.value;
+                mataPelajaranTerpilih.appendChild(li);
+            });
+        }
+
+        // Initialize mata pelajaran for the default selected class
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMataPelajaran();
+            updateOutput();
+        });
+    </script>
+</body>
+</html>
